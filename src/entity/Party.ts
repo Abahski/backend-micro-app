@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, PrimaryColumn } from "typeorm"
 
 @Entity()
-export class Partai {
+export class Party {
 	@PrimaryGeneratedColumn()
 	id: number
 
@@ -14,8 +14,8 @@ export class Partai {
 	@Column()
 	address: string
 
-	@Column()
-	visi_mission: string
+	@Column('text', { array: true})
+	visi_mission: string[]
 
 	@Column()
 	image: string

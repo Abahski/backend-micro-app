@@ -1,30 +1,31 @@
-import { Entity, PrimaryGeneratedColumn, Column, Timestamp, CreateDateColumn, 
-		ManyToMany, ManyToOne, UpdateDateColumn} from "typeorm"
-import { Users } from "./Users"
+import { Entity, PrimaryGeneratedColumn, Column, 
+CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Users } from "./Users";
 
 @Entity()
 export class Articles {
-	@PrimaryGeneratedColumn()
-	id: Number
+    @PrimaryGeneratedColumn()
+    id: number;
 
-	@Column()
-	Judul: string
+    @Column()
+    title: string;
 
-	@Column()
-	Content: string
+    @Column()
+    image: string
 
-	@Column()
-	Author: string
+    @Column()
+    content: string;
 
-	@CreateDateColumn()
-	createdDate: Date
+    @CreateDateColumn()
+    createdDate: Date;
 
-	@Column()
-	Deskripsi: string
+    @Column()
+    description: string;
 
-	@UpdateDateColumn()
-	updatedDate: Date
+    @UpdateDateColumn()
+    updatedDate: Date;
 
-	@ManyToOne(() => Users, (users) => users.articles)
-	users: Users
+    @ManyToOne(() => Users, (user) => user.articles)
+    @JoinColumn({ name: 'user', referencedColumnName: 'id' })
+    users: Users;
 }

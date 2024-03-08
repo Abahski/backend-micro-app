@@ -20,30 +20,30 @@ export class Users {
     id: number
 
     @Column()
-    Fullname: string
+    fullname: string
 
     @Column()
-    Alamat: string
+    address: string
 
     @Column({
         type: "enum",
         enum: Gender,
         default: Gender.Male,
     })
-    Jenis_Kelamin: Gender
+    gender: Gender
 
     @Column()
-    Username: string
+    username: string
 
     @Column()
-    Password: string
+    password: string
 
     @Column({
         type: "enum",
         enum: Roles,
         default: Roles.User
     })
-    Role: Roles
+    role: Roles
 
     @OneToMany(() => Articles, (articles) => articles.users)
     articles: Articles[]

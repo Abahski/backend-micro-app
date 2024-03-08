@@ -1,37 +1,100 @@
 import { AppDataSource } from "../data-source";
-import { Users } from "../entity/Users";
 import { Articles } from "../entity/Articles";
-import { getRepository, getConnection } from "typeorm";
 
-export default new class ArticleService {
-		async insertArticle(reqBody:any, userId: number) {
-	    try {
-	        const repository = await getRepository(Users).findOne(userId);
-	        
-	        const newArticle = new Articles();
-	        newArticle.Judul = reqBody.Judul;
-	        newArticle.Content = reqBody.Content;
-	        newArticle.Author = reqBody.Author;
-	        newArticle.Deskripsi = reqBody.Deskripsi;
+export default new (class ArticleService {
+	repository = AppDataSource.getRepository(Articles)
 
+	// create
+	async create(reqBody: any) {
+		try {
+			const article = this.repository.create({
+				title: reqBody.title,
+		        image: reqBody.image,
+		        content: reqBody.content,
+		        description: reqBody.description,
+		        users: reqBody.users,
+				})
 
-	        if (repository) {
-	            newArticle.users = repository;
-	            await getConnection()
-	                .createQueryBuilder()
-	                .insert()
-	                .into(Articles)
-	                .values(newArticle)
-	                .execute();
-
-	            console.log("Article saved successfully.");
-	        } else {
-	            console.log("User not found.");
-	        }
-	    } catch (error) {
-	        console.error("Error inserting article:", error);
-	        throw error;
-	    }
+			await this.repository
+	        .createQueryBuilder()
+	        .insert()
+	        .into(Articles)
+	        .values(article)
+	        .execute();
+		} catch(error) {
+			throw(error)
+		}
 	}
 
-}
+	//find all
+	async find(): Promise<any> {
+		try {
+			const article = await AppDataSource
+				.getRepository(Articles)
+				.createQueryBuilder("article")
+				.getMany()
+
+			return article
+		} catch(error) {
+			throw error
+		}
+	}
+
+	// find one
+	async catch(id: number): Promise<any> {
+		try {
+			const article = await AppDataSource
+				.getRepository(Articles)
+				.createQueryBuilder("article")
+				.where("article.id = :id", { id: id})
+				.getOne()
+
+			return article
+		} catch(error) {
+			throw error
+		}
+	}
+
+	//update
+	async updateArticle(reqBody: any, id:number): Promise<any> {
+		try {
+			const repository = AppDataSource.getRepository(Articles)
+
+			const article = this.repository.create({
+				title: reqBody.title,
+		        image: reqBody.image,
+		        content: reqBody.content,
+		        description: reqBody.description,
+				})
+
+			await AppDataSource
+			.getRepository(Articles)
+			.createQueryBuilder()
+			.update(Articles)
+			.set(article)
+			.where({ id })
+			.execute();
+
+		} catch(error) {
+			throw error
+		}
+	}
+
+	//delete
+	async delete(id: number): Promise<any> {
+		try {
+			const article = await AppDataSource
+				.getRepository(Articles)
+				.createQueryBuilder()
+			    .delete()
+			    .from(Articles)
+			    .where({ id })
+			    .execute()
+
+			return article
+		} catch(error) {
+			throw error
+		}
+	}
+})
+

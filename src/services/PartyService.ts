@@ -1,29 +1,28 @@
 import { AppDataSource } from "../data-source";
-import { Users } from "../entity/Users";
+import { Party } from "../entity/Party";
 
 export default new class UsersService {
 	async create(reqBody: any) : Promise<any> {
 		try {
-			const repository = AppDataSource.getRepository(Users)
+			const repository = AppDataSource.getRepository(Party)
 
-			const user = repository.create({
-				fullname: reqBody.fullname,
+			const party = repository.create({
+				name: reqBody.name,
+				leader_name: reqBody.leader_name,
 				address: reqBody.address,
-				gender: reqBody.gender,
-				username: reqBody.username,
-				password: reqBody.password,
-				role: reqBody.role
+				visi_mission: reqBody.visi_mission,
+				image: reqBody.image
 			})
 
 			await AppDataSource
-				.getRepository(Users)
+				.getRepository(Party)
 				.createQueryBuilder()
 				.insert()
-				.into(Users)
-				.values(user)
+				.into(Party)
+				.values(party)
 				.execute()
 
-			return user
+			return party
 		} catch(error) {
 			throw error
 		}
@@ -31,12 +30,12 @@ export default new class UsersService {
 
 	async find(): Promise<any> {
 		try {
-			const users = await AppDataSource
-				.getRepository(Users)
-				.createQueryBuilder("user")
+			const party = await AppDataSource
+				.getRepository(Party)
+				.createQueryBuilder("party")
 				.getMany()
 
-			return users
+			return party
 		} catch(error) {
 			throw error
 		}
@@ -45,9 +44,9 @@ export default new class UsersService {
 	async catch(id: number): Promise<any> {
 		try {
 			const users = await AppDataSource
-				.getRepository(Users)
-				.createQueryBuilder("user")
-				.where("user.id = :id", { id: id})
+				.getRepository(Party)
+				.createQueryBuilder("party")
+				.where("party.id = :id", { id: id})
 				.getOne()
 
 			return users
@@ -60,10 +59,10 @@ export default new class UsersService {
 	async delete(id: number): Promise<any> {
 		try {
 			const users = await AppDataSource
-				.getRepository(Users)
+				.getRepository(Party)
 				.createQueryBuilder()
 			    .delete()
-			    .from(Users)
+			    .from(Party)
 			    .where({ id })
 			    .execute()
 
@@ -75,19 +74,21 @@ export default new class UsersService {
 
 	async updateUser(reqBody: any, id:number): Promise<any> {
 		try {
-			const repository = AppDataSource.getRepository(Users)
+			const repository = AppDataSource.getRepository(Party)
 
-			const user = repository.create({
-				fullname: reqBody.Fullname,
-				address: reqBody.Alamat,
-				password: reqBody.Password
+			const party = repository.create({
+				name: reqBody.name,
+				leader_name: reqBody.leader_name,
+				address: reqBody.address,
+				visi_mission: reqBody.visi_mission,
+				image: reqBody.image
 			})
 
 			await AppDataSource
-			.getRepository(Users)
+			.getRepository(Party)
 			.createQueryBuilder()
-			.update(Users)
-			.set(user)
+			.update(Party)
+			.set(party)
 			.where({ id })
 			.execute();
 

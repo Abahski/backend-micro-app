@@ -1,20 +1,16 @@
 import { Request, Response } from 'express'
-import UsersService from '../services/UsersService'
-import { UserValidator } from '../validator/User'
+import PartyService from '../services/PartyService'
 
 export default new class UserControllers {
 	// create
 	async create(req: Request, res: Response) : Promise<Response> {
 		try {
 			const data = req.body
+			await PartyService.create(data)
 
-			const {error, value} = UserValidator.validate(data)
-
-			if(error) return res.status(400).json({message: error.details[0].message})
-
-			const user = await UsersService.create(value)
-
-			return res.status(201).json(user)
+			return res
+			.status(201)
+			.json({ message: "Success", data });
 		} catch (error) {
 			return res.status(500).json({ message:error })
 		}
@@ -23,9 +19,9 @@ export default new class UserControllers {
 	//find all
 	async find(req: Request, res: Response) : Promise<Response> {
 		try {
-			const users = await UsersService.find()
+			const data = await PartyService.find()
 
-			return res.status(200).json(users)
+			return res.status(200).json(data)
 		} catch (error) {
 			return res.status(500).json({ message: error })
 		}
@@ -34,8 +30,8 @@ export default new class UserControllers {
 	// find one
 	async catch(req: Request, res: Response) : Promise<Response> {
 		try {
-			const userId = parseInt(req.params.id);
-			const finding = await UsersService.catch(userId)
+			const articelId = parseInt(req.params.id);
+			const finding = await PartyService.catch(articelId)
 
 			if (!finding) {
             return res.status(404).json({ message: "No data found" });
@@ -51,8 +47,8 @@ export default new class UserControllers {
 	//delete
 	async delete(req: Request, res: Response) : Promise<Response> {
 		try {
-			const userId = parseInt(req.params.id);
-			const hapus = await UsersService.delete(userId)
+			const articleId = parseInt(req.params.id);
+			const hapus = await PartyService.delete(articleId)
 
 			return res.status(202).json({message: "User has been removed"})
 		} catch (error) {
@@ -63,8 +59,8 @@ export default new class UserControllers {
 	//update
 	async update(req: Request, res: Response) : Promise<Response> {
 		try {
-			const userId = parseInt(req.params.id);
-			const updated = await UsersService.updateUser(req.body, userId)
+			const articleId = parseInt(req.params.id);
+			const updated = await PartyService.updateUser(req.body, articleId)
 
 			return res.status(202).json({message: "User has been updated"})
 		} catch (error) {
