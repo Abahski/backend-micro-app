@@ -4,10 +4,10 @@ const roles = ['User', 'Admin']
 const jenisKelamin = ['Laki-laki', 'Perempuan']
 
 export const UserValidator = Joi.object({
-	Fullname: Joi.string().required(),
-	Alamat: Joi.string().required(),
-	Jenis_Kelamin: Joi.string().valid(...jenisKelamin).required(),
-	Username: Joi.string().required(),
-	Password: Joi.string().required(),
-	Role: Joi.string().valid(...roles).required()
+	fullname: Joi.string().required(),
+	address: Joi.string().required(),
+	gender: Joi.string().valid(...jenisKelamin).required(),
+	username: Joi.string().required(),
+	password: Joi.string().required(),
+	role: Joi.string().valid(...roles).required()
 })

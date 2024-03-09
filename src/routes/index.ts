@@ -1,7 +1,7 @@
 import express from "express"
 import UsersController from "../controllers/UsersController"
 import ArticleController from "../controllers/ArticleController"
- import PartyController from "../controllers/PartyController"
+import PartyController from "../controllers/PartyController"
 
 const Route = express.Router()
 

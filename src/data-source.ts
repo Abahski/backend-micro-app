@@ -1,6 +1,5 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { User } from "./entity/User"
 import { Users } from "./entity/Users"
 import { Articles } from "./entity/Articles"
 import { Party } from "./entity/Party"
@@ -14,7 +13,7 @@ export const AppDataSource = new DataSource({
     database: "micro_app",
     synchronize: true,
     logging: false,
-    entities: [User, Users, Articles, Party],
+    entities: [Users, Articles, Party],
     migrations: [],
     subscribers: [],
     cache: true,
