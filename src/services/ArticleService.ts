@@ -32,6 +32,7 @@ export default new (class ArticleService {
 			const article = await AppDataSource
 				.getRepository(Articles)
 				.createQueryBuilder("article")
+				.leftJoinAndSelect("article.users", "users")
 				.getMany()
 
 			return article
@@ -46,6 +47,7 @@ export default new (class ArticleService {
 			const article = await AppDataSource
 				.getRepository(Articles)
 				.createQueryBuilder("article")
+				.leftJoinAndSelect("article.users", "users")
 				.where("article.id = :id", { id: id})
 				.getOne()
 

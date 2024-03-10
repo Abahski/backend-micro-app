@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, PrimaryColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, PrimaryColumn, OneToOne } from "typeorm"
+import { Candidate } from "./Candidate"
 
 @Entity()
 export class Party {
@@ -19,4 +20,7 @@ export class Party {
 
 	@Column()
 	image: string
+
+	@OneToOne(() => Candidate, (candidate) => candidate.party)
+	candidate: Candidate
 }

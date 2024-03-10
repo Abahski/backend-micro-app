@@ -2,6 +2,9 @@ import express from "express"
 import UsersController from "../controllers/UsersController"
 import ArticleController from "../controllers/ArticleController"
 import PartyController from "../controllers/PartyController"
+import CandidateController from "../controllers/CandidateController"
+import VotesController from "../controllers/VotesController"
+
 
 const Route = express.Router()
 
@@ -26,4 +29,17 @@ Route.get("/partai/:id", PartyController.catch)
 Route.delete("/partai/:id", PartyController.delete)
 Route.put("/partai/:id", PartyController.update)
 
+// candidate
+Route.post("/paslon", CandidateController.create)
+Route.get("/paslon", CandidateController.find)
+Route.get("/paslon/:id", CandidateController.catch)
+Route.delete("/paslon/:id", CandidateController.delete)
+Route.put("/paslon/:id", CandidateController.update)
+
+// vote
+Route.post("/vote", VotesController.create)
+Route.get("/vote", VotesController.find)
+Route.get("/vote/:id", VotesController.catch)
+Route.delete("/vote/:id", VotesController.delete)
+Route.put("/vote/:id", VotesController.update)
 export default Route

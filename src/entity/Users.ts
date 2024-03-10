@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from "typeorm"
 import { Articles } from "./Articles"
+import { Votes } from "./Votes"
 
 
 export enum Gender {
@@ -47,4 +48,7 @@ export class Users {
 
     @OneToMany(() => Articles, (articles) => articles.users)
     articles: Articles[]
+
+    @OneToOne(() => Votes, (votes) => votes.users)
+    votes: Votes
 }
