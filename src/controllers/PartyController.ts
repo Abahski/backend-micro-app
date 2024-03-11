@@ -1,16 +1,22 @@
 import { Request, Response } from 'express'
 import PartyService from '../services/PartyService'
+import { PartyValidator } from '../validator/Party'
 
 export default new class UserControllers {
 	// create
 	async create(req: Request, res: Response) : Promise<Response> {
 		try {
 			const data = req.body
-			await PartyService.create(data)
 
-			return res
-			.status(201)
-			.json({ message: "Success", data });
+          	const {error, value} = PartyValidator.validate(data)
+
+         	if(error) return res.status(400).json({message: error.details[0].message})
+
+          	const user = await PartyService.create(value)
+
+          	return res
+            .status(200)
+            .json({ message: "Create data Party Success", user });
 		} catch (error) {
 			return res.status(500).json({ message:error })
 		}

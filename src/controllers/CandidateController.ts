@@ -1,17 +1,23 @@
 import { Request, Response } from 'express';
 import CandidateService from '../services/CandidateService';
+import { CandidateValidator } from '../validator/Candidate';
 
 
 export default new class CandidateController{
     // create
     async create(req: Request, res: Response) : Promise<Response> {
         try {
-          const data = req.body;
-          await CandidateService.create(data);
+          const data = req.body
 
-          return res
+          const {error, value} = CandidateValidator.validate(data)
+
+          if(error) return res.status(400).json({message: error.details[0].message})
+
+            const user = await CandidateService.create(value)
+
+            return res
             .status(200)
-            .json({ message: "Create Candidate Success", data });
+            .json({ message: "Create data Candidate Success", user });
         } catch (error) {
           return res
             .status(500)

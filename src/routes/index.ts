@@ -42,4 +42,5 @@ Route.get("/vote", VotesController.find)
 Route.get("/vote/:id", VotesController.catch)
 Route.delete("/vote/:id", VotesController.delete)
 Route.put("/vote/:id", VotesController.update)
+
 export default Route

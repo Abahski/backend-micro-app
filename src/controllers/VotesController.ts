@@ -1,17 +1,23 @@
 import { Request, Response } from 'express';
 import VoteService from '../services/VotesService';
+import { VoteValidator } from '../validator/Vote';
 
 
 export default new class VoteControllers{
     // create
     async create(req: Request, res: Response) : Promise<Response> {
         try {
-          const data = req.body;
-          await VoteService.create(data);
+          const data = req.body
 
-          return res
+          const {error, value} = VoteValidator.validate(data)
+
+          if(error) return res.status(400).json({message: error.details[0].message})
+
+            const user = await VoteService.create(value)
+
+            return res
             .status(200)
-            .json({ message: "Create data vote Success", data });
+            .json({ message: "Create data vote Success", user });
         } catch (error) {
           return res
             .status(500)

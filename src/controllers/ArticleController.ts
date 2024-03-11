@@ -1,17 +1,23 @@
 import { Request, Response } from 'express';
 import ArticleService from '../services/ArticleService';
+import { ArticleValidator } from '../validator/Article';
 
 
 export default new class ArticleControllers{
     // create
     async insertArticle(req: Request, res: Response) : Promise<Response> {
         try {
-          const data = req.body;
-          await ArticleService.create(data);
+          const data = req.body
+
+          const {error, value} = ArticleValidator.validate(data)
+
+          if(error) return res.status(400).json({message: error.details[0].message})
+
+          const user = await ArticleService.create(value)
 
           return res
             .status(200)
-            .json({ message: "Create data Article Success", data });
+            .json({ message: "Create data Article Success", user });
         } catch (error) {
           return res
             .status(500)
