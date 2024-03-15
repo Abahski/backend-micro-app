@@ -20,7 +20,7 @@ export class Articles {
     createdDate: Date;
 
     @Column()
-    description: string;
+    headline: string;
 
     @UpdateDateColumn()
     updatedDate: Date;

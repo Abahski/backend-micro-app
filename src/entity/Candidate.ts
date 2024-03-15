@@ -12,11 +12,11 @@ export class Candidate {
 	@Column()
 	name: string
 
-	@Column('text', { array: true})
-	visi_mission: string[]
+	@Column()
+	visi_mission: string
 
-	@Column('text', { array: true})
-	coalition: string[]
+	@Column()
+	coalition: string
 
 	@Column()
 	image: string

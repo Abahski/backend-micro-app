@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source";
 import { Articles } from "../entity/Articles";
+import { Users } from "../entity/Users";
 
 export default new (class ArticleService {
 	repository = AppDataSource.getRepository(Articles)
@@ -11,7 +12,7 @@ export default new (class ArticleService {
 				title: reqBody.title,
 		        image: reqBody.image,
 		        content: reqBody.content,
-		        description: reqBody.description,
+		        headline: reqBody.headline,
 		        users: reqBody.users,
 				})
 
@@ -26,7 +27,7 @@ export default new (class ArticleService {
 		}
 	}
 
-	//find all
+	//find all article
 	async find(): Promise<any> {
 		try {
 			const article = await AppDataSource
@@ -41,15 +42,33 @@ export default new (class ArticleService {
 		}
 	}
 
-	// find one
+	// find one article
 	async catch(id: number): Promise<any> {
 		try {
 			const article = await AppDataSource
 				.getRepository(Articles)
 				.createQueryBuilder("article")
 				.leftJoinAndSelect("article.users", "users")
+				.addSelect(["users.id"])
 				.where("article.id = :id", { id: id})
 				.getOne()
+
+			return article
+		} catch(error) {
+			throw error
+		}
+	}
+
+	// find all article based on id
+	async getArticleById(userId: number): Promise<any> {
+		try {
+			const article = await this.repository
+				.createQueryBuilder("article")
+				.leftJoin("article.users", "users")
+				.addSelect(["users.id"])
+				.where("users.id = :userId", { userId: userId})
+				.loadAllRelationIds()
+				.getMany()
 
 			return article
 		} catch(error) {
@@ -60,13 +79,12 @@ export default new (class ArticleService {
 	//update
 	async updateArticle(reqBody: any, id:number): Promise<any> {
 		try {
-			const repository = AppDataSource.getRepository(Articles)
 
 			const article = this.repository.create({
 				title: reqBody.title,
 		        image: reqBody.image,
 		        content: reqBody.content,
-		        description: reqBody.description,
+		        headline: reqBody.headline,
 				})
 
 			await AppDataSource

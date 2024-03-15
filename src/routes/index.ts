@@ -19,6 +19,7 @@ Route.put("/registers/:id", UsersController.update)
 Route.post("/article", ArticleController.insertArticle)
 Route.get("/article", ArticleController.find)
 Route.get("/article/:id", ArticleController.catch)
+Route.get("/article/users/:id", ArticleController.findUser)
 Route.delete("/article/:id", ArticleController.delete)
 Route.put("/article/:id", ArticleController.update)
 

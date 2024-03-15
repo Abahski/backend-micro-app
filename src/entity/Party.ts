@@ -15,8 +15,8 @@ export class Party {
 	@Column()
 	address: string
 
-	@Column('text', { array: true})
-	visi_mission: string[]
+	@Column()
+	visi_mission: string
 
 	@Column()
 	image: string

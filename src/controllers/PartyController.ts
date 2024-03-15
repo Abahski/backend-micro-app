@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import PartyService from '../services/PartyService'
 import { PartyValidator } from '../validator/Party'
 
-export default new class UserControllers {
+export default new class PartyControllers {
 	// create
 	async create(req: Request, res: Response) : Promise<Response> {
 		try {

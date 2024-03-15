@@ -3,8 +3,8 @@
  export const PartyValidator = Joi.object({
  	name: Joi.string().required(),
  	leader_name: Joi.string().required(),
- 	address_name: Joi.string().required(),
- 	visi_misiion: Joi.array().items(Joi.string()).required(),
+ 	address: Joi.string().required(),
+ 	visi_mission: Joi.string().required(),
  	image: Joi.string().required(),
- 	candidate: Joi.number().required()
+ 	// candidate: Joi.number().required()
  })

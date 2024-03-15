@@ -9,5 +9,5 @@ export const UserValidator = Joi.object({
 	gender: Joi.string().valid(...jenisKelamin).required(),
 	username: Joi.string().required(),
 	password: Joi.string().required(),
-	role: Joi.string().valid(...roles).required()
+	// role: Joi.string().valid(...roles).required()
 })

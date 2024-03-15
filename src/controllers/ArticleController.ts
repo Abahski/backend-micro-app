@@ -54,6 +54,23 @@ export default new class ArticleControllers{
         }
     }
 
+    // find all article based on one id
+    async findUser(req: Request, res: Response) : Promise<Response> {
+        try {
+            const userId = parseInt(req.params.id);
+            
+            const finding = await ArticleService.getArticleById(userId)
+
+            if (!finding) {
+            return res.status(404).json({ message: "No data found" });
+        }
+
+            return res.status(202).json(finding)
+        } catch (error) {
+            return res.status(500).json({ message: error })
+        }
+    }
+
 
     // update
     async update(req: Request, res: Response): Promise<Response> {

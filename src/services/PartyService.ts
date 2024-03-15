@@ -1,7 +1,7 @@
 import { AppDataSource } from "../data-source";
 import { Party } from "../entity/Party";
 
-export default new class UsersService {
+export default new class PartyService {
 	async create(reqBody: any) : Promise<any> {
 		try {
 			const repository = AppDataSource.getRepository(Party)
